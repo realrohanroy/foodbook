@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ recipe .title }}</h2>
+  <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+  <p>{{ recipe.description }}</p>
+  <p>Cooking Time: {{ recipe.cooking_time }} minutes</p>
+  
+  <h3>Reviews</h3>
+  {% for review in reviews %}
+    <div>
+      <strong>{{ review.user.email }}</strong>
+      <p>{{ review.comment }}</p>
+      <p><em>{{ review.created_at }}</em></p>
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+
+  <h3>Leave a Review</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ review_form.as_p }}
+    <button type="submit">Submit Review</button>
+  </form>
+{% endblock %}
